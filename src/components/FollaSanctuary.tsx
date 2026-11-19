@@ -7,6 +7,7 @@ import {
   Gift,
   HeartHandshake,
   Lamp,
+  Mic,
   Palette,
   ScrollText,
   Smile,
@@ -48,6 +49,7 @@ const CHALLENGE_ICONS: Record<ChallengeId, React.ReactNode> = {
   adhkar_cards: <Sparkles className="h-5 w-5 text-[#0F6B4E]" />,
   values_story: <BookHeart className="h-5 w-5 text-[#B85D6F]" />,
   words_light: <BookOpen className="h-5 w-5 text-[#6D4C9E]" />,
+  recite_ayahs: <Mic className="h-5 w-5 text-[#0F6B4E]" />,
 };
 
 const TIME_TINTS: Record<TimeOfDay, string> = {
@@ -266,7 +268,7 @@ export const FollaSanctuary: React.FC<FollaSanctuaryProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
             {CHALLENGES_META.map((ch) => {
               const isDone = save.completedToday.includes(ch.id);
               return (

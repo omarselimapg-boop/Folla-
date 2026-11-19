@@ -5,7 +5,8 @@ export type ChallengeId =
   | 'charity_catch'
   | 'adhkar_cards'
   | 'values_story'
-  | 'words_light';
+  | 'words_light'
+  | 'recite_ayahs';
 
 export type MeterKey = 'purity' | 'faith' | 'manners' | 'knowledge';
 
@@ -61,7 +62,14 @@ export interface BadgeDefinition {
   title: string;
   description: string;
   color: string;
-  iconType: 'droplet' | 'heart' | 'sparkle' | 'scale' | 'book' | 'star' | 'scroll' | 'palette';
+  iconType: 'droplet' | 'heart' | 'sparkle' | 'scale' | 'book' | 'star' | 'scroll' | 'palette' | 'mic';
+}
+
+export interface SurahRecitation {
+  id: string;
+  name: string;
+  ayahs: string[];
+  meaning: string;
 }
 
 export interface ProphetQuestion {

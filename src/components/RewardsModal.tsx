@@ -6,6 +6,7 @@ import {
   Droplets,
   Heart,
   Lock,
+  Mic,
   Palette,
   Scale,
   ScrollText,
@@ -30,6 +31,7 @@ const BADGE_ICONS: Record<BadgeDefinition['iconType'], React.ReactNode> = {
   scroll: <ScrollText className="h-6 w-6" />,
   star: <Star className="h-6 w-6" />,
   palette: <Palette className="h-6 w-6" />,
+  mic: <Mic className="h-6 w-6" />,
 };
 
 export const RewardsModal: React.FC<RewardsModalProps> = ({ save, onClose }) => {

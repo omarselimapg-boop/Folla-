@@ -9,6 +9,7 @@ import { RewardsModal } from './components/RewardsModal';
 import { TitleScreen } from './components/TitleScreen';
 import { AdhkarCardsChallenge } from './components/challenges/AdhkarCardsChallenge';
 import { CharityCatchChallenge } from './components/challenges/CharityCatchChallenge';
+import { ReciteAyahsChallenge } from './components/challenges/ReciteAyahsChallenge';
 import { ValuesStoryChallenge } from './components/challenges/ValuesStoryChallenge';
 import { WordsLightChallenge } from './components/challenges/WordsLightChallenge';
 import { WuduChallenge } from './components/challenges/WuduChallenge';
@@ -103,6 +104,7 @@ const CHALLENGE_BADGE_MAP: Record<ChallengeId, string> = {
   adhkar_cards: 'dhikr_tongue',
   values_story: 'honest_heart',
   words_light: 'light_seeker',
+  recite_ayahs: 'quran_reciter',
 };
 
 export default function App() {
@@ -612,6 +614,16 @@ export default function App() {
         <WordsLightChallenge
           startRound={save.wordRoundIndex}
           onComplete={(bonus) => handleChallengeComplete('words_light', bonus)}
+          onCancel={() => {
+            soundEngine.playTap();
+            setActiveChallenge(null);
+          }}
+        />
+      )}
+
+      {activeChallenge === 'recite_ayahs' && (
+        <ReciteAyahsChallenge
+          onComplete={(bonus) => handleChallengeComplete('recite_ayahs', bonus)}
           onCancel={() => {
             soundEngine.playTap();
             setActiveChallenge(null);
