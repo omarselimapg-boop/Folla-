@@ -333,6 +333,47 @@ export const BADGES: BadgeDefinition[] = [
     color: '#0F6B4E',
     iconType: 'mic',
   },
+  {
+    id: 'young_artist',
+    title: 'شارة الرسامة المبدعة',
+    description: 'رسم لوحة تعبيرية عن القيم الإسلامية وحفظها في معرض الإنجازات',
+    color: '#B85D6F',
+    iconType: 'brush',
+  },
+];
+
+export interface DrawingPrompt {
+  id: string;
+  valueFocus: string;
+  prompt: string;
+}
+
+export const DRAWING_VALUE_PROMPTS: DrawingPrompt[] = [
+  {
+    id: 'honesty',
+    valueFocus: 'الصدق والأمانة',
+    prompt: 'ارسمي قلباً مضيئاً أو نجوماً تعبّر عن الصدق والأمانة',
+  },
+  {
+    id: 'mercy',
+    valueFocus: 'الرحمة والرفق',
+    prompt: 'ارسمي حديقة فيها طيور وأزهار تسقيها فُلَّة برفق',
+  },
+  {
+    id: 'charity',
+    valueFocus: 'الصدقة والعطاء',
+    prompt: 'ارسمي شجرة مثمرة أو هدية نشاركها مع الجيران',
+  },
+  {
+    id: 'gratitude',
+    valueFocus: 'شكر الله والعبادة',
+    prompt: 'ارسمي مسجداً صغيراً أو هلالاً وفانوساً تحت سماء جميلة',
+  },
+  {
+    id: 'parents',
+    valueFocus: 'بر الوالدين',
+    prompt: 'ارسمي بيتاً دافئاً وابتسامة جميلة تسعد أمي وأبي',
+  },
 ];
 
 export const SHORT_SURAHS: SurahRecitation[] = [

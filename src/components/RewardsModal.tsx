@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Award,
   BookOpen,
+  Brush,
   Check,
   Droplets,
   Heart,
@@ -32,6 +33,7 @@ const BADGE_ICONS: Record<BadgeDefinition['iconType'], React.ReactNode> = {
   star: <Star className="h-6 w-6" />,
   palette: <Palette className="h-6 w-6" />,
   mic: <Mic className="h-6 w-6" />,
+  brush: <Brush className="h-6 w-6" />,
 };
 
 export const RewardsModal: React.FC<RewardsModalProps> = ({ save, onClose }) => {

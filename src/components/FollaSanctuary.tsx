@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   BookHeart,
   BookOpen,
+  Brush,
   Check,
   Droplets,
   Gift,
@@ -40,6 +41,7 @@ interface FollaSanctuaryProps {
   onStartChallenge: (id: ChallengeId) => void;
   onOpenProphetsStories: () => void;
   onOpenCustomizer: () => void;
+  onOpenStudio: () => void;
   onFinishDay: () => void;
 }
 
@@ -78,6 +80,7 @@ export const FollaSanctuary: React.FC<FollaSanctuaryProps> = ({
   onStartChallenge,
   onOpenProphetsStories,
   onOpenCustomizer,
+  onOpenStudio,
   onFinishDay,
 }) => {
   const [roomBgFailed, setRoomBgFailed] = useState(false);
@@ -250,6 +253,15 @@ export const FollaSanctuary: React.FC<FollaSanctuaryProps> = ({
             >
               <Palette className="h-4 w-4" />
               <span>تغيير المظهر</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onOpenStudio}
+              className="flex min-h-11 items-center gap-2 rounded-xl border border-[#B85D6F]/30 bg-[#FDF0F3]/95 px-3.5 py-2 text-xs font-bold text-[#9E3E52] shadow-sm transition-transform duration-150 hover:scale-[1.03] hover:bg-[#FFFFFF] active:scale-95 focus-visible:outline-2 focus-visible:outline-[#0F6B4E] whitespace-nowrap"
+            >
+              <Brush className="h-4 w-4" />
+              <span>مرسم القيم</span>
             </button>
           </div>
         </div>

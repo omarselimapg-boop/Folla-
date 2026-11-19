@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Award,
   BookOpen,
+  Brush,
   Droplets,
   HeartHandshake,
   Palette,
@@ -29,6 +30,7 @@ interface GameHudProps {
   onOpenKeepsakes: () => void;
   onOpenCustomizer: () => void;
   onOpenRewards: () => void;
+  onOpenStudio: () => void;
 }
 
 const TIME_LABELS: Record<TimeOfDay, string> = {
@@ -58,6 +60,7 @@ export const GameHud: React.FC<GameHudProps> = ({
   onOpenKeepsakes,
   onOpenCustomizer,
   onOpenRewards,
+  onOpenStudio,
 }) => {
   const meterKeys: MeterKey[] = ['purity', 'faith', 'manners', 'knowledge'];
   const { current } = getLevelProgress(points);
@@ -142,6 +145,15 @@ export const GameHud: React.FC<GameHudProps> = ({
         >
           <Palette className="h-4 w-4 text-[#0F6B4E]" />
           <span>مظهر فُلَّة</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onOpenStudio}
+          className="flex h-11 items-center gap-1.5 rounded-xl border border-[#1C2A24]/12 bg-[#FAF6EE]/95 px-3 text-xs sm:text-sm font-bold text-[#1C2A24] shadow-sm transition-transform duration-150 hover:scale-[1.02] hover:bg-[#EFE7D6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F6B4E] whitespace-nowrap shrink-0"
+        >
+          <Brush className="h-4 w-4 text-[#B85D6F]" />
+          <span>المرسم والمعرض</span>
         </button>
 
         <button

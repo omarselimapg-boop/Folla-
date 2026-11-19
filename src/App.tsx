@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Award, Home, Play, RotateCcw, Star } from 'lucide-react';
 import { AppearanceCustomizer } from './components/AppearanceCustomizer';
+import { DrawingStudioModal } from './components/DrawingStudioModal';
 import { FollaSanctuary } from './components/FollaSanctuary';
 import { GameHud } from './components/GameHud';
 import { KeepsakeDrawer } from './components/KeepsakeDrawer';
@@ -32,6 +33,7 @@ import {
   MeterKey,
   OutfitId,
   SaveProgress,
+  SavedDrawing,
   SkinToneId,
   TimeOfDay,
 } from './types/game';
@@ -64,6 +66,7 @@ const DEFAULT_SAVE: SaveProgress = {
   earnedBadges: [],
   completedProphetStories: [],
   hasCustomizedAppearance: false,
+  drawings: [],
   storyIndex: 0,
   wordRoundIndex: 0,
   adhkarRoundIndex: 0,
@@ -85,6 +88,7 @@ function loadProgress(): SaveProgress {
         ...DEFAULT_SAVE.appearance,
         ...(parsed.appearance || {}),
       },
+      drawings: Array.isArray(parsed.drawings) ? parsed.drawings : [],
     };
   } catch {
     return DEFAULT_SAVE;
@@ -115,6 +119,7 @@ export default function App() {
   const [customizerOpen, setCustomizerOpen] = useState(false);
   const [rewardsOpen, setRewardsOpen] = useState(false);
   const [prophetsOpen, setProphetsOpen] = useState(false);
+  const [studioOpen, setStudioOpen] = useState(false);
   const [badgeToast, setBadgeToast] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(() => soundEngine.isMuted());
   const [dialogue, setDialogue] = useState(FOLLA_GREETINGS[0]);
@@ -168,6 +173,7 @@ export default function App() {
     setCustomizerOpen(false);
     setRewardsOpen(false);
     setProphetsOpen(false);
+    setStudioOpen(false);
     setGameState('PLAYING');
   }, []);
 
@@ -185,6 +191,10 @@ export default function App() {
       if (e.key === 'Escape') {
         if (activeChallenge) {
           setActiveChallenge(null);
+          return;
+        }
+        if (studioOpen) {
+          setStudioOpen(false);
           return;
         }
         if (prophetsOpen) {
@@ -220,6 +230,7 @@ export default function App() {
     customizerOpen,
     rewardsOpen,
     prophetsOpen,
+    studioOpen,
     handleStartGame,
   ]);
 
@@ -491,6 +502,47 @@ export default function App() {
     }));
   };
 
+  const handleSaveDrawing = (drawing: Omit<SavedDrawing, 'id' | 'daySaved'>) => {
+    soundEngine.playCelebration();
+    triggerBounce();
+    const isNewBadge = !save.earnedBadges.includes('young_artist');
+    const newEntry: SavedDrawing = {
+      ...drawing,
+      id: `draw_${Date.now()}`,
+      daySaved: save.day,
+    };
+
+    setSave((prev) => ({
+      ...prev,
+      stars: prev.stars + 10,
+      points: prev.points + 30,
+      drawings: [newEntry, ...prev.drawings].slice(0, 12),
+      earnedBadges: isNewBadge
+        ? [...prev.earnedBadges, 'young_artist']
+        : prev.earnedBadges,
+      meters: {
+        ...prev.meters,
+        knowledge: Math.min(100, prev.meters.knowledge + 10),
+        manners: Math.min(100, prev.meters.manners + 10),
+      },
+    }));
+
+    if (isNewBadge) {
+      showBadgeToast('young_artist');
+    }
+
+    setDialogue(`ما أجمل لوحتك عن "${drawing.valueFocus}"! حُفظت في معرض الإنجازات.`);
+    pushFloating('+10 ★ · +30 ن', 'stars');
+  };
+
+  const handleDeleteDrawing = (id: string) => {
+    soundEngine.playTap();
+    setSave((prev) => ({
+      ...prev,
+      drawings: prev.drawings.filter((d) => d.id !== id),
+    }));
+  };
+
   if (gameState === 'TITLE_MENU') {
     return (
       <TitleScreen
@@ -533,6 +585,10 @@ export default function App() {
           soundEngine.playTap();
           setRewardsOpen(true);
         }}
+        onOpenStudio={() => {
+          soundEngine.playTap();
+          setStudioOpen(true);
+        }}
       />
 
       {/* New Badge Unlock Toast */}
@@ -563,6 +619,10 @@ export default function App() {
         onOpenCustomizer={() => {
           soundEngine.playTap();
           setCustomizerOpen(true);
+        }}
+        onOpenStudio={() => {
+          soundEngine.playTap();
+          setStudioOpen(true);
         }}
         onFinishDay={handleFinishDay}
       />
@@ -684,6 +744,21 @@ export default function App() {
           }}
           onUnlockOrSelectWardrobe={handleUnlockOrSelectWardrobe}
           onUnlockKeepsake={handleUnlockKeepsake}
+        />
+      )}
+
+      {/* Drawing Studio & Achievements Gallery Modal */}
+      {studioOpen && (
+        <DrawingStudioModal
+          drawings={save.drawings}
+          earnedBadgesCount={save.earnedBadges.length}
+          day={save.day}
+          onSaveDrawing={handleSaveDrawing}
+          onDeleteDrawing={handleDeleteDrawing}
+          onClose={() => {
+            soundEngine.playTap();
+            setStudioOpen(false);
+          }}
         />
       )}
 

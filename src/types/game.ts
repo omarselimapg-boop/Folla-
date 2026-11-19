@@ -62,7 +62,7 @@ export interface BadgeDefinition {
   title: string;
   description: string;
   color: string;
-  iconType: 'droplet' | 'heart' | 'sparkle' | 'scale' | 'book' | 'star' | 'scroll' | 'palette' | 'mic';
+  iconType: 'droplet' | 'heart' | 'sparkle' | 'scale' | 'book' | 'star' | 'scroll' | 'palette' | 'mic' | 'brush';
 }
 
 export interface SurahRecitation {
@@ -111,7 +111,16 @@ export interface SaveProgress {
   earnedBadges: string[];
   completedProphetStories: string[];
   hasCustomizedAppearance: boolean;
+  drawings: SavedDrawing[];
   storyIndex: number;
   wordRoundIndex: number;
   adhkarRoundIndex: number;
+}
+
+export interface SavedDrawing {
+  id: string;
+  title: string;
+  valueFocus: string;
+  dataUrl: string;
+  daySaved: number;
 }
